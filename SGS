@@ -1,0 +1,48 @@
+
+-- Criação da base Sistema de Gestão de Solicitações (SGS) 
+CREATE DATABASE SGS; 
+
+-- Script criação das tabelas 
+
+CREATE TABLE solicitantes (
+	id		INTEGER	NOT NULL,
+	nome	VARCHAR(100) NOT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE solicitacoes (
+	id					INTEGER NOT NULL,
+	descricao 			VARCHAR(255) NOT NULL,
+	valor 				NUMERIC(10, 2) NOT NULL,
+	data_solicitacao 	DATE NOT NULL,
+	status_id			INTEGER UNIQUE NOT NULL, -- FK
+	solicitante_id		INTEGER NOT NULL, -- FK
+	categoria_id		INTEGER NOT NULL, -- FK
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE categorias (
+	id		INTEGER NOT NULL,
+	nome 	VARCHAR(100) NOT NULL,
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE status_solicitacoes (
+	id 		INTEGER NOT NULL,
+	status 	VARCHAR(100) NOT NULL,
+	PRIMARY KEY(id)
+);
+
+-- Estabelecendo Constraints
+
+-- solicitantes -> solicitacoes (1:N)
+ALTER TABLE solicitacoes 
+ADD CONSTRAINT fk_solicitante_solicitacao FOREIGN KEY(solicitante_id) REFERENCES solicitantes(id);
+
+-- categorias -> solicitacoes (1:N)
+ALTER TABLE solicitacoes 
+ADD CONSTRAINT fk_categoria_solicitacao FOREIGN KEY (categoria_id) REFERENCES categorias(id);
+
+-- status_solicitacoes -> solicitacoes (1:1)
+ALTER TABLE solicitacoes 
+ADD CONSTRAINT fk_status_solicitacoes FOREIGN KEY(status_id) REFERENCES status_solicitacoes(id);
