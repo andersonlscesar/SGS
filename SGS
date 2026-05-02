@@ -15,7 +15,7 @@ CREATE DATABASE SGS;
 
 
 CREATE TABLE solicitantes (
-	id		INTEGER	NOT NULL,
+	id		SERIAL	NOT NULL,
 	nome	VARCHAR(100) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -31,7 +31,7 @@ CREATE TYPE solic_types AS ENUM ('SOLICITADO', 'LIBERADO', 'APROVADO', 'REJEITAD
 -- Tables
 
 CREATE TABLE solicitacoes (
-	id					INTEGER NOT NULL,
+	id					SERIAL NOT NULL,
 	descricao 			VARCHAR(255) NOT NULL,
 	valor 				NUMERIC(10, 2) NOT NULL,
 	data_solicitacao 	DATE NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE solicitacoes (
 );
 
 CREATE TABLE categorias (
-	id		INTEGER NOT NULL,
+	id		SERIAL NOT NULL,
 	nome 	VARCHAR(100) NOT NULL,
 	PRIMARY KEY(id)
 );
@@ -64,3 +64,15 @@ ADD CONSTRAINT fk_solicitante_solicitacao FOREIGN KEY(solicitante_id) REFERENCES
 ALTER TABLE solicitacoes 
 ADD CONSTRAINT fk_categoria_solicitacao FOREIGN KEY (categoria_id) REFERENCES categorias(id);
 
+
+/*
+==================================================================
+4 - Índices
+==================================================================
+*/
+
+CREATE INDEX idx_solicitacoes_solicitante_id 	ON solicitacoes(solicitante_id);
+CREATE INDEX idx_solicitacoes_categoria_id 		ON solicitacoes(categoria_id);
+CREATE INDEX idx_solicitacoes_status 			ON solicitacoes(status);
+CREATE INDEX idx_solicitacoes_data_solicitacao 	ON solicitacoes(data_solicitacao);
+CREATE INDEX idx_solicitacoes_filtros			ON solicitacoes(status, categoria_id, data_solicitacao);
