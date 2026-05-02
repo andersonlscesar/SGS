@@ -1,0 +1,36 @@
+
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# ===========================
+# Maven
+# ===========================
+.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+
+# ===========================
+# IntelliJ IDEA
+# ===========================
+
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# ===========================
+# Spring Boot
+# ===========================
+
+application-dev.properties
+
+# ===========================
+# Logs
+# ===========================
+*.log
+logs/
+
+
