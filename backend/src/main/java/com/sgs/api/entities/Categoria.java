@@ -19,6 +19,7 @@ public class Categoria {
   @OneToMany(mappedBy = "categoria")
   private List<Solicitacao> solicitacoes = new ArrayList<>();
 
+  public Categoria() {}
 
   public Categoria(Long id, String nome) {
     this.id   = id;

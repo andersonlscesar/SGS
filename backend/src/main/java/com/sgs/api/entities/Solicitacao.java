@@ -1,8 +1,9 @@
 package com.sgs.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sgs.api.enums.Status;
 import jakarta.persistence.*;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+
 
 import java.time.LocalDate;
 
@@ -17,7 +18,7 @@ public class Solicitacao {
   @Column(nullable = false, length = 255)
   private String descricao;
 
-  @Column(nullable = false, precision = 10, scale = 2)
+  @Column(nullable = false)
   private double valor;
 
   @Column(nullable = false)
@@ -34,6 +35,18 @@ public class Solicitacao {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "categoria_id", nullable = false)
   private Categoria categoria;
+
+  public Solicitacao() {}
+
+  public Solicitacao(Long id, String descricao, double valor, LocalDate dataSolicitacao, Status status, Solicitante solicitante, Categoria categoria) {
+    this.id               = id;
+    this.descricao        = descricao;
+    this.valor            = valor;
+    this.dataSolicitacao  = dataSolicitacao;
+    this.status           = status;
+    this.solicitante      = solicitante;
+    this.categoria        = categoria;
+  }
 
   public Long getId() {
     return id;

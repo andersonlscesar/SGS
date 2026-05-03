@@ -1,5 +1,6 @@
 package com.sgs.api.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,14 +14,16 @@ public class Solicitante {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(nullable = false, length = 100)
+  @Column(name = "nome", nullable = false, length = 100)
   private String nome;
 
-  @Column(unique = true, nullable = false, length = 18)
+  @Column(name = "cpf_cnpj", unique = true, nullable = false, length = 18)
   private String cpfCnpj;
 
   @OneToMany(mappedBy = "solicitante")
   private List<Solicitacao> solicitacoes = new ArrayList<>();
+
+  public Solicitante(){}
 
   public Solicitante(Long id, String nome, String cpfCnpj) {
     this.id       = id;
@@ -44,7 +47,7 @@ public class Solicitante {
     return cpfCnpj;
   }
 
-  public void SetCpfCnpj(String cpfCnpj) {
+  public void setCpfCnpj(String cpfCnpj) {
     this.cpfCnpj = cpfCnpj;
   }
 
