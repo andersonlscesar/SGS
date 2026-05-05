@@ -38,4 +38,12 @@ public class SolicitacaoController {
     public ResponseEntity<SolicitacaoDTO> cadastrar(@RequestBody @Valid SolicitacaoReqDTO dto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.salvar(dto));
     }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<SolicitacaoDTO> atualizarStatus(
+            @PathVariable Long id,
+            @RequestParam String novoStatus) {
+
+        return ResponseEntity.ok(service.atualizarStatus(id, novoStatus));
+    }
 }

@@ -62,4 +62,42 @@ public class SolicitacaoService {
         return new SolicitacaoDTO(solicitacaoRepo.save(solicitacao));
     }
 
+
+    public SolicitacaoDTO atualizarStatus(Long id, String novoStatus) {
+
+        Solicitacao solicitacao = solicitacaoRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Solicitação não encontrada"));
+
+        Status statusAtual = solicitacao.getStatus();
+        Status statusNovo;
+
+        // Valida se o status enviado é válido
+        try {
+            statusNovo = Status.valueOf(novoStatus.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Status inválido: " + novoStatus);
+        }
+
+        // Valida a transição
+        validarTransicao(statusAtual, statusNovo);
+
+        solicitacao.setStatus(statusNovo);
+        return new SolicitacaoDTO(solicitacaoRepo.save(solicitacao));
+    }
+
+    private void validarTransicao(Status atual, Status novo) {
+        boolean valida = switch (atual) {
+            case SOLICITADO -> novo == Status.LIBERADO   || novo == Status.REJEITADO;
+            case LIBERADO   -> novo == Status.APROVADO   || novo == Status.REJEITADO;
+            case APROVADO   -> novo == Status.CANCELADO;
+            case REJEITADO, CANCELADO -> false;
+        };
+
+        if (!valida) {
+            throw new IllegalArgumentException(
+                    "Transição de " + atual + " para " + novo + " não permitida"
+            );
+        }
+    }
+
 }
