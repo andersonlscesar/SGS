@@ -91,4 +91,13 @@ public class Solicitacao {
   public void setCategoria(Categoria categoria) {
     this.categoria = categoria;
   }
+
+  public Solicitante getSolicitante() {
+    return solicitante;
+  }
+
+  public void setSolicitante(Solicitante solicitante) {
+    this.solicitante = solicitante;
+  }
+
 }
