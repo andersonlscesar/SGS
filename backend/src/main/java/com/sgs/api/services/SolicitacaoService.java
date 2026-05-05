@@ -1,5 +1,10 @@
 package com.sgs.api.services;
 
+import com.sgs.api.dto.CategoriaDTO;
+import com.sgs.api.dto.SolicitacaoDTO;
+import com.sgs.api.entities.Categoria;
+import com.sgs.api.entities.Solicitacao;
+import com.sgs.api.exceptions.ResourceNotFoundException;
 import com.sgs.api.projections.SolicitacaoProjection;
 import com.sgs.api.repositories.CategoriaRepository;
 import com.sgs.api.repositories.SolicitacaoRepository;
@@ -25,6 +30,12 @@ public class SolicitacaoService {
             String dataInicio, String dataFim
     ) {
         return solicitacaoRepo.listarComFiltros(status, categoriaId, dataInicio, dataFim);
+    }
+
+    public SolicitacaoDTO buscarPorId(Long id) {
+        Solicitacao solicitacao = solicitacaoRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Solicitação não encontrada"));
+        return new SolicitacaoDTO(solicitacao);
     }
 
 }

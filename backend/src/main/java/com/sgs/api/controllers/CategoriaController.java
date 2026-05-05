@@ -23,7 +23,7 @@ public class CategoriaController {
         return ResponseEntity.ok(categoriaService.listar());
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<CategoriaDTO> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(categoriaService.buscarPorId(id));
     }

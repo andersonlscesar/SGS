@@ -20,7 +20,7 @@ public class SolicitanteController {
     return ResponseEntity.ok(solicitanteService.buscar(nome, cpfCnpj));
   }
 
-  @GetMapping("{id}")
+  @GetMapping("/{id}")
   public ResponseEntity<SolicitanteDTO> buscarPorId(@PathVariable Long id) {
     return ResponseEntity.ok(solicitanteService.buscarPorId(id));
   }

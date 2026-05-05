@@ -1,42 +1,42 @@
 package com.sgs.api.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import com.sgs.api.entities.Solicitacao;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 public class SolicitacaoDTO {
 
-    @NotBlank(message = "Descrição é obrigatória")
+    private Long id;
     private String descricao;
-
-    @NotNull(message = "O valor é obrigatório")
-    @Positive(message =  "O valor deve ser positivo")
     private BigDecimal valor;
+    private LocalDate dataSolicitacao;
+    private String status;
+    private String nomeSolicitante;
+    private String documentoSolicitante;
+    private String nomeCategoria;
 
-    @NotNull(message = "Solicitante é obrigatório")
-    private Long solicitanteId;
-
-    @NotNull(message = "Categoria é obrigatória")
-    private Long categoriaId;
-
-    public String getDescricao() {
-        return descricao;
+    public SolicitacaoDTO(Solicitacao s) {
+        this.id                   = s.getId();
+        this.descricao            = s.getDescricao();
+        this.valor                = s.getValor();
+        this.dataSolicitacao      = s.getDataSolicitacao();
+        this.status               = s.getStatus().name();
+        this.nomeSolicitante      = s.getSolicitante().getNome();
+        this.documentoSolicitante = s.getSolicitante().getCpfCnpj();
+        this.nomeCategoria        = s.getCategoria().getNome();
     }
 
-    public BigDecimal getValor() {
-        return valor;
-    }
-
-    public Long getSolicitanteId() {
-        return solicitanteId;
-    }
-
-    public Long getCategoriaId() {
-        return categoriaId;
-    }
-
-
-
+    public Long getId() { return id; }
+    public String getDescricao() { return descricao; }
+    public BigDecimal getValor() { return valor; }
+    public LocalDate getDataSolicitacao() { return dataSolicitacao; }
+    public String getStatus() { return status; }
+    public String getNomeSolicitante() { return nomeSolicitante; }
+    public String getDocumentoSolicitante() { return documentoSolicitante; }
+    public String getNomeCategoria() { return nomeCategoria; }
 }
+
+
+
+

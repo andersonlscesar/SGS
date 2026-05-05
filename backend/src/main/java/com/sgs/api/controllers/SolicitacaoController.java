@@ -1,13 +1,11 @@
 package com.sgs.api.controllers;
 
+import com.sgs.api.dto.SolicitacaoDTO;
 import com.sgs.api.projections.SolicitacaoProjection;
 import com.sgs.api.services.SolicitacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,5 +24,10 @@ public class SolicitacaoController {
             @RequestParam(required = false) String dataFim) {
 
         return ResponseEntity.ok(service.listar(status, categoriaId, dataInicio, dataFim));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SolicitacaoDTO> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok(service.buscarPorId(id));
     }
 }
