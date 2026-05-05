@@ -26,7 +26,7 @@ public class Solicitacao {
   private LocalDate dataSolicitacao;
 
   @Enumerated(EnumType.STRING)
-  @Column(nullable = false, columnDefinition = "solic_types")
+  @Column(nullable = false)
   private Status status;
 
   @ManyToOne(fetch = FetchType.LAZY)
