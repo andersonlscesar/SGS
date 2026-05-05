@@ -1,10 +1,11 @@
 package com.sgs.api.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import com.sgs.api.enums.Status;
 import jakarta.persistence.*;
 
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -19,7 +20,7 @@ public class Solicitacao {
   private String descricao;
 
   @Column(nullable = false)
-  private double valor;
+  private BigDecimal valor;
 
   @Column(nullable = false)
   private LocalDate dataSolicitacao;
@@ -38,7 +39,7 @@ public class Solicitacao {
 
   public Solicitacao() {}
 
-  public Solicitacao(Long id, String descricao, double valor, LocalDate dataSolicitacao, Status status, Solicitante solicitante, Categoria categoria) {
+  public Solicitacao(Long id, String descricao, BigDecimal valor, LocalDate dataSolicitacao, Status status, Solicitante solicitante, Categoria categoria) {
     this.id               = id;
     this.descricao        = descricao;
     this.valor            = valor;
@@ -60,11 +61,11 @@ public class Solicitacao {
     this.descricao = descricao;
   }
 
-  public double getValor() {
+  public BigDecimal getValor() {
     return valor;
   }
 
-  public void setValor(double valor) {
+  public void setValor(BigDecimal valor) {
     this.valor = valor;
   }
 
