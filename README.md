@@ -3,7 +3,7 @@
 
 ## Script para criação da base de dados, tabelas e indices
 
-'''
+```
 /*
 ==================================================================
 1 - base
@@ -76,11 +76,11 @@ CREATE INDEX idx_solicitacoes_status 				ON solicitacoes(status);
 CREATE INDEX idx_solicitacoes_data_solicitacao 	    ON solicitacoes(data_solicitacao);
 CREATE INDEX idx_solicitacoes_filtros				ON solicitacoes(status, categoria_id, data_solicitacao);
 
-'''
+```
 
 ## Seed
 
-'''
+```
 
 
 INSERT INTO solicitantes (nome, cpf_cnpj) VALUES
@@ -115,4 +115,4 @@ INSERT INTO solicitacoes (
 ('Serviço de TI terceirizado', 5000.00, '2026-04-15', 'CANCELADO', 5, 1);
 
 
-'''
+```
