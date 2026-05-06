@@ -2,6 +2,7 @@ package com.sgs.api.services;
 
 import com.sgs.api.dto.SolicitacaoDTO;
 import com.sgs.api.dto.SolicitacaoReqDTO;
+import com.sgs.api.dto.SolicitacaoUpdateDTO;
 import com.sgs.api.entities.Categoria;
 import com.sgs.api.entities.Solicitacao;
 import com.sgs.api.entities.Solicitante;
@@ -98,6 +99,32 @@ public class SolicitacaoService {
                     "Transição de " + atual + " para " + novo + " não permitida"
             );
         }
+    }
+
+    // Atualização das informações da solicitação
+
+    public SolicitacaoDTO atualizar(Long id, SolicitacaoUpdateDTO dto) {
+
+        Solicitacao solicitacao = solicitacaoRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Solicitação não encontrada"));
+
+        // Bloqueia edição em status finais
+        if (solicitacao.getStatus() == Status.APROVADO   ||
+                solicitacao.getStatus() == Status.REJEITADO  ||
+                solicitacao.getStatus() == Status.CANCELADO) {
+            throw new IllegalArgumentException(
+                    "Não é possível editar uma solicitação com status: " + solicitacao.getStatus()
+            );
+        }
+
+        Categoria categoria = categoriaRepo.findById(dto.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
+
+        solicitacao.setDescricao(dto.getDescricao());
+        solicitacao.setValor(dto.getValor());
+        solicitacao.setCategoria(categoria);
+
+        return new SolicitacaoDTO(solicitacaoRepo.save(solicitacao));
     }
 
 }

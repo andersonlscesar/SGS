@@ -2,6 +2,7 @@ package com.sgs.api.controllers;
 
 import com.sgs.api.dto.SolicitacaoDTO;
 import com.sgs.api.dto.SolicitacaoReqDTO;
+import com.sgs.api.dto.SolicitacaoUpdateDTO;
 import com.sgs.api.projections.SolicitacaoProjection;
 import com.sgs.api.services.SolicitacaoService;
 import jakarta.validation.Valid;
@@ -45,5 +46,13 @@ public class SolicitacaoController {
             @RequestParam String novoStatus) {
 
         return ResponseEntity.ok(service.atualizarStatus(id, novoStatus));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SolicitacaoDTO> atualizar(
+            @PathVariable Long id,
+            @RequestBody @Valid SolicitacaoUpdateDTO dto) {
+
+        return ResponseEntity.ok(service.atualizar(id, dto));
     }
 }
