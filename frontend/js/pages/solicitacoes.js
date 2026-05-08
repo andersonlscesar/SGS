@@ -246,6 +246,80 @@ async function carregarSolicitacoes(filtros = {}) {
 }
 
 // Abre modal com formulário de cadastro
+// async function abrirModalCadastro() {
+//     const [solicitantes, categorias] = await Promise.all([
+//         getSolicitantes(),
+//         getCategorias()
+//     ]);
+//
+//     const formulario = `
+//         <form id="formCadastro" class="space-y-4">
+//             <div>
+//                 <label class="text-sm text-gray-600 font-medium">Solicitante</label>
+//                 <select id="solicitanteId" required
+//                     class="mt-1 w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
+//                     <option value="">Selecione um solicitante</option>
+//                     ${solicitantes.map(s => `<option value="${s.id}">${s.nome}</option>`).join('')}
+//                 </select>
+//             </div>
+//
+//             <div>
+//                 <label class="text-sm text-gray-600 font-medium">Categoria</label>
+//                 <select id="categoriaId" required
+//                     class="mt-1 w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
+//                     <option value="">Selecione uma categoria</option>
+//                     ${categorias.map(c => `<option value="${c.id}">${c.nome}</option>`).join('')}
+//                 </select>
+//             </div>
+//
+//             <div>
+//                 <label class="text-sm text-gray-600 font-medium">Descrição</label>
+//                 <input id="descricao" type="text" required placeholder="Descreva a solicitação"
+//                     class="mt-1 w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+//             </div>
+//
+//             <div>
+//                 <label class="text-sm text-gray-600 font-medium">Valor (R$)</label>
+//                 <input id="valor" type="number" step="0.01" min="0.01" required placeholder="0,00"
+//                     class="mt-1 w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+//             </div>
+//
+//             <div class="flex justify-end gap-3 pt-2">
+//                 <button type="button" id="btnCancelar"
+//                     class="px-4 py-2 text-sm text-gray-600 border rounded-lg hover:bg-gray-50 transition">
+//                     Cancelar
+//                 </button>
+//                 <button type="submit"
+//                     class="px-4 py-2 text-sm text-white bg-orange-500 hover:bg-orange-600 rounded-lg transition">
+//                     Cadastrar
+//                 </button>
+//             </div>
+//
+//         </form>
+//     `;
+//     abrirModal(formulario);
+//
+//     document.getElementById('btnCancelar').addEventListener('click', fecharModal);
+//
+//     document.getElementById('formCadastro').addEventListener('submit', async (e) => {
+//         e.preventDefault();
+//
+//         const dados = {
+//             solicitanteId: Number(document.getElementById('solicitanteId').value),
+//             categoriaId:   Number(document.getElementById('categoriaId').value),
+//             descricao:     document.getElementById('descricao').value,
+//             valor:         Number(document.getElementById('valor').value)
+//         };
+//
+//         try {
+//             await cadastrarSolicitacao(dados);
+//             fecharModal();
+//             await carregarSolicitacoes();
+//         } catch (err) {
+//             alert('Erro ao cadastrar solicitação');
+//         }
+//     });
+// }
 async function abrirModalCadastro() {
     const [solicitantes, categorias] = await Promise.all([
         getSolicitantes(),
@@ -253,36 +327,42 @@ async function abrirModalCadastro() {
     ]);
 
     const formulario = `
-        <form id="formCadastro" class="space-y-4">
+        <form id="formCadastro" class="space-y-4" novalidate>
             <div>
                 <label class="text-sm text-gray-600 font-medium">Solicitante</label>
-                <select id="solicitanteId" required
+                <select id="solicitanteId"
                     class="mt-1 w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
                     <option value="">Selecione um solicitante</option>
                     ${solicitantes.map(s => `<option value="${s.id}">${s.nome}</option>`).join('')}
                 </select>
+                <p id="erroSolicitante" class="text-xs text-red-500 mt-1 hidden"></p>
             </div>
 
             <div>
                 <label class="text-sm text-gray-600 font-medium">Categoria</label>
-                <select id="categoriaId" required
+                <select id="categoriaId"
                     class="mt-1 w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400">
                     <option value="">Selecione uma categoria</option>
                     ${categorias.map(c => `<option value="${c.id}">${c.nome}</option>`).join('')}
                 </select>
+                <p id="erroCategoria" class="text-xs text-red-500 mt-1 hidden"></p>
             </div>
 
             <div>
                 <label class="text-sm text-gray-600 font-medium">Descrição</label>
-                <input id="descricao" type="text" required placeholder="Descreva a solicitação"
+                <input id="descricao" type="text" placeholder="Descreva a solicitação"
                     class="mt-1 w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                <p id="erroDescricao" class="text-xs text-red-500 mt-1 hidden"></p>
             </div>
 
             <div>
                 <label class="text-sm text-gray-600 font-medium">Valor (R$)</label>
-                <input id="valor" type="number" step="0.01" min="0.01" required placeholder="0,00"
+                <input id="valor" type="number" step="0.01" min="0.01" placeholder="0,00"
                     class="mt-1 w-full border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-400" />
+                <p id="erroValor" class="text-xs text-red-500 mt-1 hidden"></p>
             </div>
+
+            <p id="erroGeral" class="text-xs text-red-500 hidden"></p>
 
             <div class="flex justify-end gap-3 pt-2">
                 <button type="button" id="btnCancelar"
@@ -297,12 +377,16 @@ async function abrirModalCadastro() {
 
         </form>
     `;
+
     abrirModal(formulario);
 
     document.getElementById('btnCancelar').addEventListener('click', fecharModal);
 
     document.getElementById('formCadastro').addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        // Limpa erros anteriores
+        limparErros();
 
         const dados = {
             solicitanteId: Number(document.getElementById('solicitanteId').value),
@@ -311,16 +395,59 @@ async function abrirModalCadastro() {
             valor:         Number(document.getElementById('valor').value)
         };
 
+
+
         try {
             await cadastrarSolicitacao(dados);
             fecharModal();
             await carregarSolicitacoes();
         } catch (err) {
-            alert('Erro ao cadastrar solicitação');
+            // Trata erros retornados pela API
+            const erro = await err.response?.json().catch(() => null);
+
+            if (err && erro?.mensagem) {
+                // Mapeia o campo do erro para o elemento de erro correto
+                const mapa = {
+                    'descricao':     'erroDescricao',
+                    'valor':         'erroValor',
+                    'solicitanteId': 'erroSolicitante',
+                    'categoriaId':   'erroCategoria'
+                };
+
+                // Verifica se a mensagem contém algum campo conhecido
+                const campoEncontrado = Object.keys(mapa).find(campo =>
+                    erro.mensagem.toLowerCase().includes(campo.toLowerCase())
+                );
+
+                if (campoEncontrado) {
+                    mostrarErro(mapa[campoEncontrado], erro.mensagem);
+                } else {
+                    mostrarErro('erroGeral', erro.mensagem);
+                }
+            } else {
+                mostrarErro('erroGeral', 'Erro ao cadastrar solicitação. Tente novamente.\n' + err);
+            }
         }
     });
 }
 
+function mostrarErro(elementoId, mensagem) {
+    const el = document.getElementById(elementoId);
+    if (el) {
+        el.textContent = mensagem;
+        el.classList.remove('hidden');
+    }
+}
+
+function limparErros() {
+    ['erroSolicitante', 'erroCategoria', 'erroDescricao', 'erroValor', 'erroGeral'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.textContent = '';
+            el.classList.add('hidden');
+        }
+    });
+}
 /*
 * Função utilizada para formatar a data da solicitação
 * */

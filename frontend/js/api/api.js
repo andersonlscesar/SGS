@@ -36,15 +36,27 @@ export async function getSolicitacaoPorId(id) {
     return response.json();
 }
 
+
+
+
 export async function cadastrarSolicitacao(dados) {
     const response = await fetch(`${BASE_URL}/solicitacoes`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dados)
     });
-    if (!response.ok) throw new Error('Erro ao cadastrar solicitação');
+
+    if (!response.ok) {
+        const erro = await response.json();
+        const error = new Error(erro.mensagem || 'Erro ao cadastrar');
+        error.response = response;
+        error.data = erro;
+        throw error;
+    }
+
     return response.json();
 }
+
 
 export async function atualizarStatus(id, novoStatus) {
     const response = await fetch(`${BASE_URL}/solicitacoes/${id}/status?novoStatus=${novoStatus}`, {
