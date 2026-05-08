@@ -46,15 +46,12 @@ function bindMenuEvents() {
 }
 
 function updatePageTitle(route) {
-    
 
   const titles = {
-    solicitacoes: 'Solicitações',
-    categorias: 'Categorias',
-    solicitantes: 'Solicitantes'
+    solicitacoes:   'Solicitações',
+    categorias:     'Categorias',
+    solicitantes:   'Solicitantes'
   };
-
-  
 
   document.getElementById('page-title').innerText =
     titles[route] || 'SGS';
