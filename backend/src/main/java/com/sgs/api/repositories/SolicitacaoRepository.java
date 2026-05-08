@@ -29,7 +29,7 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long> 
                 AND (:categoriaId IS NULL OR s.categoria_id = :categoriaId)
                 AND (:dataInicio IS NULL OR s.data_solicitacao >= CAST(:dataInicio AS DATE))
                 AND (:dataFim IS NULL OR s.data_solicitacao <=  CAST(:dataFim AS DATE))
-                ORDER BY s.data_solicitacao DESC
+                ORDER BY s.id DESC
             """, nativeQuery = true)
     List<SolicitacaoProjection> listarComFiltros(
             @Param("status")        String status,
