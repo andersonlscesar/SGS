@@ -152,13 +152,13 @@ async function carregarSolicitacoes(filtros = {}) {
                 <td class="px-6 py-4 font-medium text-gray-800">${s.nomeSolicitante}</td>
                 <td class="px-6 py-4 font-medium text-gray-800">${s.documentoSolicitante}</td>
                 <td class="px-6 py-4 text-sm text-gray-700">${s.descricao}</td>
-                <td class="px-6 py-4 text-sm text-gray-700">${s.nomeCategoria}</td>                
+                <td class="px-6 py-4 text-sm text-gray-700">${s.nomeCategoria}</td>
                 <td class="px-6 py-4">
                     <span class="px-3 py-1 rounded-full text-xs font-medium ${statusConfig[s.status] || 'bg-gray-100 text-gray-500'}">
                         ${s.status}
                     </span>
                 </td>
-                
+
                 <td class="px-6 py-4 font-medium text-gray-800">
                     R$ ${Number(s.valor).toFixed(2).replace('.', ',')}
                 </td>
@@ -398,36 +398,79 @@ async function abrirModalCadastro() {
 
 
         try {
-            await cadastrarSolicitacao(dados);
-            fecharModal();
-            await carregarSolicitacoes();
+
+          await cadastrarSolicitacao(dados);
+
+          fecharModal();
+
+          await carregarSolicitacoes();
+
         } catch (err) {
-            // Trata erros retornados pela API
-            const erro = await err.response?.json().catch(() => null);
 
-            if (err && erro?.mensagem) {
-                // Mapeia o campo do erro para o elemento de erro correto
-                const mapa = {
-                    'descricao':     'erroDescricao',
-                    'valor':         'erroValor',
-                    'solicitanteId': 'erroSolicitante',
-                    'categoriaId':   'erroCategoria'
-                };
+          // console.log(err);
+          //
+          // const mapa = {
+          //   descricao: 'erroDescricao',
+          //   valor: 'erroValor',
+          //   solicitanteId: 'erroSolicitante',
+          //   categoriaId: 'erroCategoria'
+          // };
+          //
+          // if (err?.mensagem) {
+          //
+          //   const mensagem = err.mensagem.toLowerCase();
+          //
+          //   const campoEncontrado = Object.keys(mapa).find(campo =>
+          //     mensagem.includes(campo.toLowerCase())
+          //   );
+          //
+          //   if (campoEncontrado) {
+          //
+          //     mostrarErro(
+          //       mapa[campoEncontrado],
+          //       err.mensagem
+          //     );
+          //
+          //   } else {
+          //
+          //     mostrarErro(
+          //       'erroGeral',
+          //       err.mensagem
+          //     );
+          //
+          //   }
+          //
+          // } else {
+          //
+          //   mostrarErro(
+          //     'erroGeral',
+          //     'Erro inesperado ao cadastrar solicitação.'
+          //   );
+          //
+          // }
 
-                // Verifica se a mensagem contém algum campo conhecido
-                const campoEncontrado = Object.keys(mapa).find(campo =>
-                    erro.mensagem.toLowerCase().includes(campo.toLowerCase())
-                );
+          const erros = err.body?.erros;
 
-                if (campoEncontrado) {
-                    mostrarErro(mapa[campoEncontrado], erro.mensagem);
-                } else {
-                    mostrarErro('erroGeral', erro.mensagem);
-                }
-            } else {
-                mostrarErro('erroGeral', 'Erro ao cadastrar solicitação. Tente novamente.\n' + err);
+          if (!erros) return;
+
+          const mapa = {
+            descricao: 'erroDescricao',
+            valor: 'erroValor',
+            solicitanteId: 'erroSolicitante',
+            categoriaId: 'erroCategoria'
+          };
+
+          Object.entries(erros).forEach(([campo, mensagem]) => {
+
+            const elemento = mapa[campo];
+
+            if (elemento) {
+              mostrarErro(elemento, mensagem);
             }
-        }
+
+          });
+
+      }
     });
 }
 

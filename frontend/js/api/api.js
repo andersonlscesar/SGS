@@ -38,23 +38,29 @@ export async function getSolicitacaoPorId(id) {
 
 
 
-
 export async function cadastrarSolicitacao(dados) {
-    const response = await fetch(`${BASE_URL}/solicitacoes`, {
+      const response = await fetch(`${BASE_URL}/solicitacoes`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(dados)
-    });
+      });
 
-    if (!response.ok) {
-        const erro = await response.json();
-        const error = new Error(erro.mensagem || 'Erro ao cadastrar');
-        error.response = response;
-        error.data = erro;
-        throw error;
-    }
 
-    return response.json();
+      const body = await response.json().catch(() => null);
+
+      // erro HTTP
+      if (!response.ok) {
+
+        throw {
+          status: response.status,
+          mensagem: body?.mensagem || 'Erro ao cadastrar solicitação.',
+          body
+        };
+      }
+
+      return body;
 }
 
 

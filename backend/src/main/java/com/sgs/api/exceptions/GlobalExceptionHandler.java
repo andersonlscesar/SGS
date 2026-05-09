@@ -6,6 +6,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -32,16 +34,37 @@ public class GlobalExceptionHandler {
       .body(new ErrorResponse(500, "Erro interno no servidor"));
   }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
-        String mensagem = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
-                .collect(Collectors.joining(", "));
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
+//        String mensagem = ex.getBindingResult()
+//                .getFieldErrors()
+//                .stream()
+//                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+//                .collect(Collectors.joining(", "));
+//
+//        return ResponseEntity
+//                .status(HttpStatus.BAD_REQUEST)
+//                .body(new ErrorResponse(400, mensagem));
+//    }
 
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse(400, mensagem));
-    }
+  @ExceptionHandler(MethodArgumentNotValidException.class)
+  public ResponseEntity<ErrorResponse> handleValidation(MethodArgumentNotValidException ex) {
+
+    Map<String, String> erros = new HashMap<>();
+
+    ex.getBindingResult()
+      .getFieldErrors()
+      .forEach(error -> {
+
+        erros.put(
+          error.getField(),
+          error.getDefaultMessage()
+        );
+
+      });
+
+    return ResponseEntity
+      .status(HttpStatus.BAD_REQUEST)
+      .body(new ErrorResponse(400, erros));
+  }
 }

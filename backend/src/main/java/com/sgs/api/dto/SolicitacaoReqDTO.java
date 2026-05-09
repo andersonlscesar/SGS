@@ -12,13 +12,15 @@ public class SolicitacaoReqDTO {
     private String descricao;
 
     @NotNull(message = "O valor é obrigatório")
-    @Positive(message = "O valor deve ser positivo")
+    @Positive(message = "O valor deve ser maior que zero")
     private BigDecimal valor;
 
     @NotNull(message = "Solicitante é obrigatório")
+    @Positive(message = "Selecione um solicitante")
     private Long solicitanteId;
 
     @NotNull(message = "Categoria é obrigatória")
+    @Positive(message = "Selecione uma categoria")
     private Long categoriaId;
 
     public SolicitacaoReqDTO() {}
