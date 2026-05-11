@@ -1,7 +1,29 @@
-# SGS
+# SGS - Sistema de Gestão de Solicitações
+
+"Solução criada para apoiar o
+controle de solicitações de pagamento realizadas por diferentes áreas de uma
+organização."
+
+## Stack utilizada
+
+- Frontend: HTML | Tailwindcss | JavaScript 
+- Backend: Java (Spring Boot)
+- Banco de dados: Postgresql
+
+## Transações Permitidas 
+
+- SOLICITADO → LIBERADO
+- LIBERADO → APROVADO
+- SOLICITADO ou LIBERADO → REJEITADO
+- APROVADO → CANCELADO
+- REJEITADO e CANCELADO são estados finais (não podem ser alterados)
+
+No backend existe a validação para impedimento de transações não permitidas, como podem ver no teste do Postman 
+
+![Teste para transação não permitida](/images/postman.png){width=100px}
 
 
-## Script para criação da base de dados, tabelas e indices
+#### Script para criação da base de dados, tabelas e indices
 
 ```
 /*
@@ -78,7 +100,7 @@ CREATE INDEX idx_solicitacoes_filtros				ON solicitacoes(status, categoria_id, d
 
 ```
 
-## Seed
+#### Seed
 
 ```
 
