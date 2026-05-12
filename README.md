@@ -42,7 +42,39 @@ Optei por deixar sem um rota para exclusão, pois uma boa prática seria cancela
 
 Implementei um endpoint para atualização dos dados, respeitando as regras de transação definidas para a solicitação. No entanto, optei por seguir a mesma abordagem utilizada na exclusão lógica: em casos de inconsistência ou necessidade de correção, a solicitação pode ser cancelada e uma nova solicitação deve ser criada com os dados ajustados.
 
+## Native SQL 
 
+Encontra-se no repository "SolicitacaoRepository".
+
+Listagem de todos os detalhes com ou sem filtros.
+
+```
+    @Query(value = """
+            SELECT
+                s.id,
+                s.descricao,
+                s.valor,
+                s.data_solicitacao,
+                s.status,
+                sol.nome        AS nome_solicitante,
+                sol.cpf_cnpj    AS documento_solicitante,
+                cat.nome        AS nome_categoria
+            FROM solicitacoes s
+            JOIN solicitantes sol ON sol.id = s.solicitante_id
+            JOIN categorias cat ON cat.id = s.categoria_id
+            WHERE (:status IS NULL OR s.status = :status)
+                AND (:categoriaId IS NULL OR s.categoria_id = :categoriaId)
+                AND (:dataInicio IS NULL OR s.data_solicitacao >= CAST(:dataInicio AS DATE))
+                AND (:dataFim IS NULL OR s.data_solicitacao <=  CAST(:dataFim AS DATE))
+                ORDER BY s.id DESC
+            """, nativeQuery = true)
+    List<SolicitacaoProjection> listarComFiltros(
+            @Param("status")        String status,
+            @Param("categoriaId")   Long categoriaId,
+            @Param("dataInicio")    String dataInicio,
+            @Param("dataFim")       String dataFim
+    );
+```
 #### Script para criação da base de dados, tabelas e indices
 
 ```
