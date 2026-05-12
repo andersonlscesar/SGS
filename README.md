@@ -18,9 +18,29 @@ organização."
 - APROVADO → CANCELADO
 - REJEITADO e CANCELADO são estados finais (não podem ser alterados)
 
-No backend existe a validação para impedimento de transações não permitidas, como podem ver no teste do Postman 
+## Detalhes Técnicos
 
-![Teste para transação não permitida](/images/postman.png){width=60px}
+No backend existe a validação para impedimento de transações não permitidas, como podem ver no teste do Postman:
+
+![Teste para transação não permitida](/images/postman.png)
+
+No front, se tratando da alteração do status a partir da listagem, apenas será possível visualizar as transações permitidas com base no status atual da solicitação.
+
+![Status disponíveis](/images/status.png)
+
+Exemplo: Se a solicitação estiver como SOLICITADO, ficarão disponíveis as opções LIBERADO E REJEITADO. Caso seu status seja alterado para LIBERADO, ficarão disponíveis as opções APROVADO E REJEITADO. 
+
+Dessa forma, o usuário sempre poderá optar por transações permitidas.
+
+Critérios atendidos: 
+	- Tela de cadastro
+	- Listagem com filtros
+	- Atualização de status
+	- Detalhamento de uma solicitação
+
+Optei por deixar sem um rota para exclusão, pois uma boa prática seria cancelar a solicitação caso houvesse algo errado, mantendo aquela informação no sistema para uma melhor rasteabilidade. 
+
+Implementei um endpoint para atualização dos dados, respeitando as regras de transação definidas para a solicitação. No entanto, optei por seguir a mesma abordagem utilizada na exclusão lógica: em casos de inconsistência ou necessidade de correção, a solicitação pode ser cancelada e uma nova solicitação deve ser criada com os dados ajustados.
 
 
 #### Script para criação da base de dados, tabelas e indices
