@@ -20,7 +20,7 @@ organização."
 
 No backend existe a validação para impedimento de transações não permitidas, como podem ver no teste do Postman 
 
-![Teste para transação não permitida](/images/postman.png){width=100px}
+![Teste para transação não permitida](/images/postman.png){width=60px}
 
 
 #### Script para criação da base de dados, tabelas e indices
