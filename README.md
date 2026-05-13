@@ -163,7 +163,7 @@ CREATE INDEX idx_solicitacoes_filtros				ON solicitacoes(status, categoria_id, d
 
 #### Seed
 
-```
+```sql
 
 
 INSERT INTO solicitantes (nome, cpf_cnpj) VALUES
