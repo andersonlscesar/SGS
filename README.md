@@ -86,7 +86,7 @@ const BASE_URL = 'http://localhost:8080';
 
 #### Script para criação da base de dados, tabelas e indices
 
-```
+```sql
 /*
 ==================================================================
 1 - base
