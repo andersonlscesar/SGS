@@ -10,13 +10,11 @@ export async function getSolicitantes(filtros = {}) {
     return response.json();
 }
 
-
 export async function getCategorias() {
     const response = await fetch(`${BASE_URL}/categorias`);
     if (!response.ok) throw new Error('Erro ao buscar categorias');
     return response.json();
 }
-
 
 export async function getSolicitacoes(filtros = {}) {
     const params = new URLSearchParams();
@@ -29,14 +27,11 @@ export async function getSolicitacoes(filtros = {}) {
     return response.json();
 }
 
-
 export async function getSolicitacaoPorId(id) {
     const response = await fetch(`${BASE_URL}/solicitacoes/${id}`);
     if (!response.ok) throw new Error('Erro ao buscar solicitação');
     return response.json();
 }
-
-
 
 export async function cadastrarSolicitacao(dados) {
       const response = await fetch(`${BASE_URL}/solicitacoes`, {
@@ -46,13 +41,10 @@ export async function cadastrarSolicitacao(dados) {
         },
         body: JSON.stringify(dados)
       });
-
-
       const body = await response.json().catch(() => null);
 
       // erro HTTP
       if (!response.ok) {
-
         throw {
           status: response.status,
           mensagem: body?.mensagem || 'Erro ao cadastrar solicitação.',
@@ -61,6 +53,25 @@ export async function cadastrarSolicitacao(dados) {
       }
 
       return body;
+}
+
+export async function editarSolicitacao(id, dados) {
+
+    const response = await fetch(`${BASE_URL}/solicitacoes/${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(dados)
+    });
+
+    if (!response.ok) {
+        const erro = await response.json();
+        const error = new Error(erro.mensagem);
+        error.body = erro;
+        throw error;
+    }
+    return response.json();
 }
 
 
