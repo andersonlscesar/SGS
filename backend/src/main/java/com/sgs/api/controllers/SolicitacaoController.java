@@ -48,13 +48,6 @@ public class SolicitacaoController {
         return ResponseEntity.ok(service.atualizarStatus(id, novoStatus));
     }
 
-//    @PutMapping("/{id}")
-//    public ResponseEntity<SolicitacaoDTO> atualizar(
-//            @PathVariable Long id,
-//            @RequestBody @Valid SolicitacaoUpdateDTO dto) {
-//
-//        return ResponseEntity.ok(service.atualizar(id, dto));
-//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<SolicitacaoProjection> atualizar(
