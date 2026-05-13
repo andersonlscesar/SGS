@@ -78,7 +78,7 @@ Listagem de todos os detalhes com ou sem filtros.
 
 ## URL base - Front
 
-No diretório frontend->js->api.js, há uma constante BASE_URL, atentar-se a ela caso suba o server em algum endereço ou porta diferente.
+No diretório frontend->js->api->api.js, há uma constante BASE_URL, atentar-se a ela caso suba o server em algum endereço ou porta diferente.
 
 ```js
 const BASE_URL = 'http://localhost:8080';
