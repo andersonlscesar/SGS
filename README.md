@@ -48,7 +48,7 @@ Encontra-se no repository "SolicitacaoRepository".
 
 Listagem de todos os detalhes com ou sem filtros.
 
-```
+```java
     @Query(value = """
             SELECT
                 s.id,
