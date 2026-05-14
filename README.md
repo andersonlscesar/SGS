@@ -28,21 +28,19 @@ No front, se tratando da alteração do status a partir da listagem, apenas ser�
 
 ![Status disponíveis](/images/status.png)
 
-Exemplo: Se a solicitação estiver como SOLICITADO, ficarão disponíveis as opções LIBERADO E REJEITADO. Caso seu status seja alterado para LIBERADO, ficarão disponíveis as opções APROVADO E REJEITADO. 
+Exemplo: Se a solicitação estiver como SOLICITADO, ficarão disponíveis as opções LIBERADO E REJEITADO. Caso seu status seja alterado para LIBERADO, ficarão disponíveis as opções APROVADO E REJEITADO.
 
 Dessa forma, o usuário sempre poderá optar por transações permitidas.
 
-Critérios atendidos: 
-	- Tela de cadastro
-	- Listagem com filtros
-	- Atualização de status
-	- Detalhamento de uma solicitação
+Critérios atendidos: - Tela de cadastro - Listagem com filtros - Atualização de status - Detalhamento de uma solicitação
 
-Optei por deixar sem um rota para exclusão, pois uma boa prática seria cancelar a solicitação caso houvesse algo errado, mantendo aquela informação no sistema para uma melhor rasteabilidade. 
+Optei por deixar sem um rota para exclusão, pois uma boa prática seria cancelar a solicitação caso houvesse algo errado, mantendo aquela informação no sistema para uma melhor rasteabilidade.
 
-Implementei um endpoint para atualização dos dados, respeitando as regras de transação definidas para a solicitação. No entanto, optei por seguir a mesma abordagem utilizada na exclusão lógica: em casos de inconsistência ou necessidade de correção, a solicitação pode ser cancelada e uma nova solicitação deve ser criada com os dados ajustados.
+A alteração do solicitante não foi permitida por regra de integridade e rastreabilidade da solicitação.
 
+O solicitante representa a origem da requisição no momento em que ela foi criada, sendo considerado um dado sensível para auditoria e histórico operacional. Permitir sua alteração poderia gerar inconsistências no acompanhamento do fluxo, além de comprometer a identificação do responsável original pela solicitação.
 
+Dessa forma, a atualização foi restrita apenas aos dados operacionais da solicitação — como categoria, descrição e valor — preservando a identidade do solicitante vinculada ao registro inicial.
 #### Script para criação da base de dados, tabelas e indices
 
 ```
