@@ -40,8 +40,15 @@ Critérios atendidos:
 
 Optei por deixar sem um rota para exclusão, pois uma boa prática seria cancelar a solicitação caso houvesse algo errado, mantendo aquela informação no sistema para uma melhor rasteabilidade. 
 
-Implementei um endpoint para atualização dos dados, respeitando as regras de transação definidas para a solicitação. No entanto, optei por seguir a mesma abordagem utilizada na exclusão lógica: em casos de inconsistência ou necessidade de correção, a solicitação pode ser cancelada e uma nova solicitação deve ser criada com os dados ajustados.
+A alteração do solicitante não foi permitida por regra de integridade e rastreabilidade da solicitação.
 
+<<<<<<< HEAD
+=======
+O solicitante representa a origem da requisição no momento em que ela foi criada, sendo considerado um dado sensível para auditoria e histórico operacional. Permitir sua alteração poderia gerar inconsistências no acompanhamento do fluxo, além de comprometer a identificação do responsável original pela solicitação.
+
+Dessa forma, a atualização foi restrita apenas aos dados operacionais da solicitação — como categoria, descrição e valor — preservando a identidade do solicitante vinculada ao registro inicial.
+
+>>>>>>> test
 ## Native SQL 
 
 Encontra-se no repository "SolicitacaoRepository".

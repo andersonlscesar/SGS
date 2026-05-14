@@ -31,8 +31,8 @@ public class SolicitacaoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SolicitacaoDTO> buscarPorId(@PathVariable Long id) {
-        return ResponseEntity.ok(service.buscarPorId(id));
+    public ResponseEntity<SolicitacaoProjection> buscarPorId(@PathVariable Long id) {
+        return ResponseEntity.ok((SolicitacaoProjection) service.buscarPorId(id));
     }
 
     @PostMapping
@@ -40,19 +40,19 @@ public class SolicitacaoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.salvar(dto));
     }
 
+
     @PatchMapping("/{id}/status")
-    public ResponseEntity<SolicitacaoDTO> atualizarStatus(
+    public ResponseEntity<SolicitacaoProjection> atualizarStatus(
             @PathVariable Long id,
             @RequestParam String novoStatus) {
-
         return ResponseEntity.ok(service.atualizarStatus(id, novoStatus));
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<SolicitacaoDTO> atualizar(
+    public ResponseEntity<SolicitacaoProjection> atualizar(
             @PathVariable Long id,
             @RequestBody @Valid SolicitacaoUpdateDTO dto) {
-
         return ResponseEntity.ok(service.atualizar(id, dto));
     }
 }
