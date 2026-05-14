@@ -36,10 +36,10 @@ public class SolicitacaoService {
         return solicitacaoRepo.listarComFiltros(status, categoriaId, dataInicio, dataFim);
     }
 
-    public SolicitacaoDTO buscarPorId(Long id) {
-        Solicitacao solicitacao = solicitacaoRepo.findById(id)
+
+    public SolicitacaoProjection buscarPorId(Long id) {
+        return solicitacaoRepo.buscarPorId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Solicitação não encontrada"));
-        return new SolicitacaoDTO(solicitacao);
     }
 
     // Cadastro
@@ -64,27 +64,27 @@ public class SolicitacaoService {
     }
 
 
-    public SolicitacaoDTO atualizarStatus(Long id, String novoStatus) {
 
-        Solicitacao solicitacao = solicitacaoRepo.findById(id)
+    public SolicitacaoProjection atualizarStatus(Long id, String novoStatus) {
+        SolicitacaoProjection solicitacao = solicitacaoRepo.buscarPorId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Solicitação não encontrada"));
 
-        Status statusAtual = solicitacao.getStatus();
+        // Converte String para enum
+        Status statusAtual = Status.valueOf(solicitacao.getStatus());
         Status statusNovo;
 
-        // Valida se o status enviado é válido
         try {
             statusNovo = Status.valueOf(novoStatus.toUpperCase());
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Status inválido: " + novoStatus);
         }
 
-        // Valida a transição
         validarTransicao(statusAtual, statusNovo);
 
-        solicitacao.setStatus(statusNovo);
-        return new SolicitacaoDTO(solicitacaoRepo.save(solicitacao));
+        solicitacaoRepo.atualizarStatus(id, statusNovo.name());
+        return solicitacaoRepo.buscarPorId(id).orElseThrow();
     }
+
 
     private void validarTransicao(Status atual, Status novo) {
         boolean valida = switch (atual) {
@@ -101,30 +101,28 @@ public class SolicitacaoService {
         }
     }
 
-    // Atualização das informações da solicitação
 
-    public SolicitacaoDTO atualizar(Long id, SolicitacaoUpdateDTO dto) {
 
-        Solicitacao solicitacao = solicitacaoRepo.findById(id)
+    public SolicitacaoProjection atualizar(Long id, SolicitacaoUpdateDTO dto) {
+        SolicitacaoProjection solicitacao = solicitacaoRepo.buscarPorId(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Solicitação não encontrada"));
 
-        // Bloqueia edição em status finais
-        if (solicitacao.getStatus() == Status.APROVADO   ||
-                solicitacao.getStatus() == Status.REJEITADO  ||
-                solicitacao.getStatus() == Status.CANCELADO) {
+        // Converte String para enum antes de comparar
+        Status statusAtual = Status.valueOf(solicitacao.getStatus());
+
+        if (statusAtual == Status.APROVADO  ||
+                statusAtual == Status.REJEITADO ||
+                statusAtual == Status.CANCELADO) {
             throw new IllegalArgumentException(
-                    "Não é possível editar uma solicitação com status: " + solicitacao.getStatus()
+                    "Não é possível editar uma solicitação com status: " + statusAtual
             );
         }
 
-        Categoria categoria = categoriaRepo.findById(dto.getCategoriaId())
+        categoriaRepo.findById(dto.getCategoriaId())
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria não encontrada"));
 
-        solicitacao.setDescricao(dto.getDescricao());
-        solicitacao.setValor(dto.getValor());
-        solicitacao.setCategoria(categoria);
-
-        return new SolicitacaoDTO(solicitacaoRepo.save(solicitacao));
+        solicitacaoRepo.atualizar(id, dto.getDescricao(), dto.getValor(), dto.getCategoriaId());
+        return solicitacaoRepo.buscarPorId(id).orElseThrow();
     }
 
 }

@@ -15,6 +15,8 @@ public class SolicitacaoDTO {
     private String nomeSolicitante;
     private String documentoSolicitante;
     private String nomeCategoria;
+    private Long categoriaId;
+    private Long solicitanteId;
 
     public SolicitacaoDTO(Solicitacao s) {
         this.id                   = s.getId();
@@ -25,6 +27,9 @@ public class SolicitacaoDTO {
         this.nomeSolicitante      = s.getSolicitante().getNome();
         this.documentoSolicitante = s.getSolicitante().getCpfCnpj();
         this.nomeCategoria        = s.getCategoria().getNome();
+        this.categoriaId          = s.getCategoria().getId();
+        this.solicitanteId        = s.getSolicitante().getId();
+
     }
 
     public Long getId() { return id; }
@@ -35,6 +40,8 @@ public class SolicitacaoDTO {
     public String getNomeSolicitante() { return nomeSolicitante; }
     public String getDocumentoSolicitante() { return documentoSolicitante; }
     public String getNomeCategoria() { return nomeCategoria; }
+    public Long getCategoriaId() { return categoriaId; }
+    public Long getSolicitanteId() { return solicitanteId; }
 }
 
 

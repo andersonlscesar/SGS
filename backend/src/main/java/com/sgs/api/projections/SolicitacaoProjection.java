@@ -13,5 +13,7 @@ public interface SolicitacaoProjection {
     String getNomeSolicitante();
     String getDocumentoSolicitante();
     String getNomeCategoria();
+    Long getCategoriaId();
+    Long getSolicitanteId();
 
 }
