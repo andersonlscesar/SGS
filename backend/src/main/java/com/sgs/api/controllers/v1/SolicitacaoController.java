@@ -1,4 +1,4 @@
-package com.sgs.api.controllers;
+package com.sgs.api.controllers.v1;
 
 import com.sgs.api.dto.SolicitacaoDTO;
 import com.sgs.api.dto.SolicitacaoReqDTO;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/solicitacoes")
+@RequestMapping("v1/solicitacoes")
 public class SolicitacaoController {
 
     @Autowired
