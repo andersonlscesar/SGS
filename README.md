@@ -42,13 +42,11 @@ Optei por deixar sem um rota para exclusão, pois uma boa prática seria cancela
 
 A alteração do solicitante não foi permitida por regra de integridade e rastreabilidade da solicitação.
 
-<<<<<<< HEAD
-=======
 O solicitante representa a origem da requisição no momento em que ela foi criada, sendo considerado um dado sensível para auditoria e histórico operacional. Permitir sua alteração poderia gerar inconsistências no acompanhamento do fluxo, além de comprometer a identificação do responsável original pela solicitação.
 
 Dessa forma, a atualização foi restrita apenas aos dados operacionais da solicitação — como categoria, descrição e valor — preservando a identidade do solicitante vinculada ao registro inicial.
 
->>>>>>> test
+
 ## Native SQL 
 
 Encontra-se na pasta "queries" na classe "SolicitacaoQueries".  
