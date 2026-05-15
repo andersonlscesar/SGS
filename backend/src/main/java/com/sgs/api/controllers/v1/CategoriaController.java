@@ -1,4 +1,4 @@
-package com.sgs.api.controllers;
+package com.sgs.api.controllers.v1;
 
 import com.sgs.api.dto.CategoriaDTO;
 import com.sgs.api.services.CategoriaService;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/categorias")
+@RequestMapping("v1/categorias")
 public class CategoriaController {
 
     @Autowired

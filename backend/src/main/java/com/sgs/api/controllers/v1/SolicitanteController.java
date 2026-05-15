@@ -1,4 +1,4 @@
-package com.sgs.api.controllers;
+package com.sgs.api.controllers.v1;
 
 import com.sgs.api.dto.SolicitanteDTO;
 import com.sgs.api.services.SolicitanteService;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/solicitantes")
+@RequestMapping("v1/solicitantes")
 public class SolicitanteController {
 
   @Autowired
