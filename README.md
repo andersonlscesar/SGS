@@ -66,7 +66,7 @@ Ex:
 No diretório frontend->js->api->api.js, há uma constante BASE_URL, atentar-se a ela caso suba o server em algum endereço ou porta diferente.
 
 ```js
-const BASE_URL = 'http://localhost:8080';
+const BASE_URL = 'http://localhost:8080/v1';
 ```
 
 #### Script para criação da base de dados, tabelas e indices
